@@ -1,0 +1,26 @@
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+#uploadButton {
+  width: 200px;
+  height: 30px;
+  border-radius: 10px;
+  border: none;
+  background-color: rgb(70, 117, 206);
+  color: white;
+  margin-top: 20px;
+  font-weight: bold;
+}
+#uploadInput {
+  margin-top: 20px;
+}
+
+.uploadContainer {
+  font-size: 20px;
+  color: rgb(70, 117, 206);
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+}

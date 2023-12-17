@@ -1,0 +1,27 @@
+.cs142-topbar-appBar {
+  height: 60;
+  justify-content: "center";
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loginButton {
+  color: white;
+  text-decoration: none;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.loginButton:hover {
+  background-color: white;
+  color: rgb(70, 117, 206);
+}

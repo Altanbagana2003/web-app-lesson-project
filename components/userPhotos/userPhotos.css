@@ -1,0 +1,54 @@
+img {
+  width: 70%;
+  border-radius: 20px;
+  height: 20%;
+}
+.comments {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-weight: bold;
+}
+
+.comment {
+  border-bottom: 1px solid black;
+  margin-top: 20px;
+}
+
+.commentContainer {
+  width: 70vw;
+  padding: 20px;
+}
+
+#commentInput {
+  border: none;
+  border-bottom: 2px solid rgb(70, 117, 206);
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 40vw;
+}
+
+#commentButton {
+  background-color: white;
+  color: rgb(70, 117, 206);
+  text-decoration: none;
+  border: 2px solid rgb(70, 117, 206);
+  border-radius: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+#commentButton:hover {
+  background-color: rgb(70, 117, 206);
+  color: white;
+}
