@@ -19,7 +19,9 @@ img {
 
 .commentContainer {
   width: 70vw;
+  display: flex;
   padding: 20px;
+  align-items: center;
 }
 
 #commentInput {
@@ -31,7 +33,7 @@ img {
   padding-bottom: 10px;
   margin-left: 10px;
   margin-right: 10px;
-  width: 40vw;
+  width: 15vw;
 }
 
 #commentButton {
@@ -51,4 +53,36 @@ img {
 #commentButton:hover {
   background-color: rgb(70, 117, 206);
   color: white;
+}
+
+.likeButton {
+  margin-left: 20px;
+  background-color: white;
+  color: red;
+  text-decoration: none;
+  border: 2px solid red;
+  border-radius: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.likeButton:hover {
+  background-color: red;
+  color: white;
+}
+
+.likeCount {
+  font-weight: bold;
+  background-color: white;
+  color: red;
+  text-decoration: none;
+  border-radius: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

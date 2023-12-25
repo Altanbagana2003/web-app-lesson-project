@@ -236,6 +236,7 @@ app.get("/photosOfUser/:id", async function (request, response) {
         comments: commentsArr,
         file_name: photos[i].file_name,
         date_time: photos[i].date_time,
+        likedUsers: photos[i].likedUsers,
       };
       photosArr.push(photo);
     }
@@ -401,5 +402,59 @@ app.post(
     photo.save();
 
     return response.status(200).send("SUCCESS");
-  }
+  },
+
+  app.post("/likePhoto", async function (request, response) {
+    const photo_id = request.body.photo_id;
+    var session_user_id = request.session.userId;
+
+    const photoResponse = await Photo.findOneAndUpdate(
+      { _id: photo_id },
+      { $push: { likedUsers: session_user_id } },
+      { new: true }
+    );
+
+    console.log("photoResponse", photoResponse);
+
+    if (photoResponse) {
+      response.status(200).send({
+        message: "success",
+        code: "200",
+        result: photoResponse,
+      });
+      return;
+    } else {
+      response
+        .status(200)
+        .send({ message: "success", code: "200", result: [] });
+      return;
+    }
+  }),
+
+  app.post("/unlikePhoto", async function (request, response) {
+    const photo_id = request.body.photo_id;
+    var session_user_id = request.session.userId;
+
+    const photoResponse = await Photo.findOneAndUpdate(
+      { _id: photo_id },
+      { $pull: { likedUsers: session_user_id } },
+      { new: true }
+    );
+
+    console.log("photoResponse", photoResponse);
+
+    if (photoResponse) {
+      response.status(200).send({
+        message: "success",
+        code: "200",
+        result: photoResponse,
+      });
+      return;
+    } else {
+      response
+        .status(200)
+        .send({ message: "success", code: "200", result: [] });
+      return;
+    }
+  })
 );

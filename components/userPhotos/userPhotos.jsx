@@ -24,7 +24,34 @@ class UserPhotos extends React.Component {
       .get(`/photosOfUser/${id}`)
       .then((response) => {
         let userPhotos = response["data"];
+        console.log("USER PHOTOS: ", userPhotos);
         this.setState({ userPhotos: userPhotos });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  tapLike(photo_id) {
+    console.log(photo_id);
+    axios
+      .post(`/likePhoto`, { photo_id: photo_id })
+      .then((response) => {
+        console.log(response.data.result.likedUsers);
+        alert("SUCCESSFULLY LIKED!");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  tapUnlike(photo_id) {
+    console.log(photo_id);
+    axios
+      .post(`/unlikePhoto`, { photo_id: photo_id })
+      .then((response) => {
+        console.log(response.data);
+        alert("SUCCESSFULLY UNLIKED!");
       })
       .catch((e) => {
         console.log(e);
@@ -54,6 +81,20 @@ class UserPhotos extends React.Component {
 
     return arr;
   };
+
+  isLikedUser(likedUsers) {
+    if (likedUsers.length === 0) {
+      return false;
+    } else {
+      for (let i = 0; i < likedUsers.length; i++) {
+        if (likedUsers[i] === Cookies.get("userId")) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+  }
 
   handleInput = (name, value) => {
     console.log("NAME: ", name);
@@ -112,6 +153,25 @@ class UserPhotos extends React.Component {
                     onClick={(e) => this.submit(e, val)}
                   />
                 </form>
+                {this.isLikedUser(val.likedUsers) ? (
+                  <h1>unlike</h1>
+                ) : (
+                  <h1>like</h1>
+                )}
+
+                <button
+                  className="likeButton"
+                  onClick={(e) => this.tapLike(val._id)}
+                >
+                  Like
+                </button>
+                <button
+                  className="likeButton"
+                  onClick={(e) => this.tapUnlike(val._id)}
+                >
+                  Unlike
+                </button>
+                <p className="likeCount">Like count: </p>
               </div>
             </div>
           ))}
