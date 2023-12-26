@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 
 import "./userPhotos.css";
 import fetchModel from "../../lib/fetchModelData.js";
@@ -15,6 +15,8 @@ class UserPhotos extends React.Component {
       userName: "",
       comment: "",
       newComment: [],
+      isLikedUsers: [],
+      likedCount: [],
     };
   }
 
@@ -26,32 +28,49 @@ class UserPhotos extends React.Component {
         let userPhotos = response["data"];
         console.log("USER PHOTOS: ", userPhotos);
         this.setState({ userPhotos: userPhotos });
+        this.isLikedUser(userPhotos);
+        this.setLikedCount(userPhotos);
       })
+
       .catch((e) => {
         console.log(e);
       });
   }
 
-  tapLike(photo_id) {
+  tapLike(photo_id, index) {
     console.log(photo_id);
     axios
       .post(`/likePhoto`, { photo_id: photo_id })
       .then((response) => {
         console.log(response.data.result.likedUsers);
         alert("SUCCESSFULLY LIKED!");
+        let temp = this.state.isLikedUsers;
+        temp[index] = true;
+        this.setState({ isLikedUsers: temp });
+
+        let tempLike = this.state.likedCount;
+        tempLike[index]++;
+        this.setState({ likedCount: tempLike });
       })
       .catch((e) => {
         console.log(e);
       });
   }
 
-  tapUnlike(photo_id) {
+  tapUnlike(photo_id, index) {
     console.log(photo_id);
     axios
       .post(`/unlikePhoto`, { photo_id: photo_id })
       .then((response) => {
         console.log(response.data);
         alert("SUCCESSFULLY UNLIKED!");
+        let temp = this.state.isLikedUsers;
+        temp[index] = false;
+        this.setState({ isLikedUsers: temp });
+
+        let tempLike = this.state.likedCount;
+        tempLike[index]--;
+        this.setState({ likedCount: tempLike });
       })
       .catch((e) => {
         console.log(e);
@@ -82,18 +101,42 @@ class UserPhotos extends React.Component {
     return arr;
   };
 
-  isLikedUser(likedUsers) {
-    if (likedUsers.length === 0) {
-      return false;
-    } else {
-      for (let i = 0; i < likedUsers.length; i++) {
-        if (likedUsers[i] === Cookies.get("userId")) {
-          return true;
+  setLikedCount(userPhotos) {
+    let temp = [];
+    for (let i = 0; i < userPhotos.length; i++) {
+      if (userPhotos[i].likedUsers) {
+        let counter = 0;
+        for (let j = 0; j < userPhotos[i].likedUsers.length; j++) {
+          counter++;
+        }
+        temp.push(counter);
+      }
+    }
+
+    this.setState({ likedCount: temp });
+  }
+
+  isLikedUser(userPhotos) {
+    let temp = [];
+    for (let i = 0; i < userPhotos.length; i++) {
+      let isLiked = false;
+      if (userPhotos[i].likedUsers) {
+        for (let j = 0; j < userPhotos[i].likedUsers.length; j++) {
+          if (Cookies.get("userId") === userPhotos[i].likedUsers[j]) {
+            isLiked = true;
+          }
         }
       }
 
-      return false;
+      if (isLiked) {
+        temp.push(true);
+      } else {
+        temp.push(false);
+      }
     }
+
+    console.log("LIKED USERS: ", temp);
+    this.setState({ isLikedUsers: temp });
   }
 
   handleInput = (name, value) => {
@@ -153,25 +196,26 @@ class UserPhotos extends React.Component {
                     onClick={(e) => this.submit(e, val)}
                   />
                 </form>
-                {this.isLikedUser(val.likedUsers) ? (
-                  <h1>unlike</h1>
+
+                {this.state.isLikedUsers[index] ? (
+                  <button
+                    className="likeButton"
+                    onClick={(e) => this.tapUnlike(val._id, index)}
+                  >
+                    Unlike
+                  </button>
                 ) : (
-                  <h1>like</h1>
+                  <button
+                    className="likeButton"
+                    onClick={(e) => this.tapLike(val._id, index)}
+                  >
+                    Like
+                  </button>
                 )}
 
-                <button
-                  className="likeButton"
-                  onClick={(e) => this.tapLike(val._id)}
-                >
-                  Like
-                </button>
-                <button
-                  className="likeButton"
-                  onClick={(e) => this.tapUnlike(val._id)}
-                >
-                  Unlike
-                </button>
-                <p className="likeCount">Like count: </p>
+                <p className="likeCount">
+                  Like count: {this.state.likedCount[index]}
+                </p>
               </div>
             </div>
           ))}
