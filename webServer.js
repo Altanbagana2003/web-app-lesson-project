@@ -458,3 +458,53 @@ app.post(
     }
   })
 );
+
+app.post("/add_favorites", async function (request, response) {
+  const photo_id = request.body.photo_id;
+  var session_user_id = request.session.userId;
+
+  const user = await User.findOneAndUpdate(
+    { _id: session_user_id },
+    { $push: { favorites: photo_id } },
+    { new: true }
+  );
+
+  console.log("user", user);
+
+  if (user) {
+    response.status(200).send({
+      message: "success",
+      code: "200",
+      result: user,
+    });
+    return;
+  } else {
+    response.status(200).send({ message: "success", code: "200", result: [] });
+    return;
+  }
+});
+
+app.post("/delete_favorites", async function (request, response) {
+  const photo_id = request.body.photo_id;
+  var session_user_id = request.session.userId;
+
+  const user = await User.findOneAndUpdate(
+    { _id: session_user_id },
+    { $pull: { favorites: photo_id } },
+    { new: true }
+  );
+
+  console.log("user", user);
+
+  if (user) {
+    response.status(200).send({
+      message: "success",
+      code: "200",
+      result: user,
+    });
+    return;
+  } else {
+    response.status(200).send({ message: "success", code: "200", result: [] });
+    return;
+  }
+});

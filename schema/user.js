@@ -1,7 +1,6 @@
 "use strict";
 
 const mongoose = require("mongoose");
-
 /**
  * Define the Mongoose Schema for a Comment.
  */
@@ -13,6 +12,7 @@ const userSchema = new mongoose.Schema({
   location: String,
   description: String,
   occupation: String,
+  favorites: [String],
 });
 
 /**

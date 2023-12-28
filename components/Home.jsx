@@ -5,6 +5,7 @@ import TopBar from "./topBar/TopBar";
 import UserDetail from "./userDetail/userDetail";
 import UserList from "./userList/userList";
 import UserPhotos from "./userPhotos/userPhotos";
+import FavoritesScreen from "./userDetail/favorites";
 
 export default class Home extends Component {
   constructor(props) {
@@ -58,6 +59,10 @@ export default class Home extends Component {
                   render={(props) => (
                     <UserDetail {...props} callback={this.callBack} />
                   )}
+                />
+                <Route
+                  path="/favorites"
+                  render={(props) => <FavoritesScreen {...props} />}
                 />
                 <Route
                   path="/photos/:userId"

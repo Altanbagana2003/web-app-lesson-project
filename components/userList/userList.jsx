@@ -10,6 +10,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./userList.css";
 import Cookies from "js-cookie";
+import { clippingParents } from "@popperjs/core";
 class UserList extends React.Component {
   constructor(props) {
     super(props);
@@ -73,8 +74,11 @@ class UserList extends React.Component {
                 </ListItem>
               </Link>
             ))}
+
             <Divider />
           </List>
+
+          <Link to="/favorites">Favorites</Link>
 
           <div className="uploadContainer">
             <label>Upload image</label>

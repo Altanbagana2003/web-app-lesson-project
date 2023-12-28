@@ -21,20 +21,7 @@ class UserPhotos extends React.Component {
   }
 
   componentDidMount() {
-    let id = this.props.match.params.userId;
-    axios
-      .get(`/photosOfUser/${id}`)
-      .then((response) => {
-        let userPhotos = response["data"];
-        console.log("USER PHOTOS: ", userPhotos);
-        this.setState({ userPhotos: userPhotos });
-        this.isLikedUser(userPhotos);
-        this.setLikedCount(userPhotos);
-      })
-
-      .catch((e) => {
-        console.log(e);
-      });
+    c;
   }
 
   tapLike(photo_id, index) {
@@ -166,6 +153,19 @@ class UserPhotos extends React.Component {
     }
   };
 
+  addFavorites(photo_id, index) {
+    console.log(photo_id);
+    axios
+      .post(`/add_favorites`, { photo_id: photo_id })
+      .then((response) => {
+        alert("SUCCESSFULLY Added favorites!");
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
   render() {
     if (!Cookies.get("userName")) {
       return <h1>Please login</h1>;
@@ -216,6 +216,12 @@ class UserPhotos extends React.Component {
                 <p className="likeCount">
                   Like count: {this.state.likedCount[index]}
                 </p>
+                <button
+                  className="likeButton"
+                  onClick={(e) => this.addFavorites(val._id, index)}
+                >
+                  Add Favorites
+                </button>
               </div>
             </div>
           ))}
